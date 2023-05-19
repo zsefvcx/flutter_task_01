@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -50,13 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
   //const double height = 300;
   final BoxFit fit = BoxFit.contain;
   bool autoPlay = false;
-
+  int? autoPlayInterval = 1;
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -78,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   enlargeCenterPage: true,
                   scrollDirection: Axis.horizontal,
                   autoPlay: autoPlay,
-                  autoPlayInterval: const Duration(seconds: 5),
+                  autoPlayInterval: Duration(seconds: autoPlayInterval??5),
                 ),
                 items: [
                   SvgPicture.asset(
@@ -140,17 +138,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Flexible(
                     child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          autoPlay = !autoPlay;
+                        });
+                      },
+                      child: Text('AutoPlay', style: TextStyle(color: autoPlay?Colors.deepOrange:Colors.black)),
+                    ),
+                  ),
+                  Flexible(
+                    child: ElevatedButton(
                       onPressed: () => _controller.previousPage(),
                       child: const Text('←'),
                     ),
-                  ),
-                  Checkbox(
-                    value: autoPlay,
-                    onChanged: (value) {
-                      setState(() {
-                        autoPlay = value ?? true;
-                      });
-                    },
                   ),
                   Flexible(
                     child: ElevatedButton(
@@ -158,14 +158,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const Text('→'),
                     ),
                   ),
-                  // ...Iterable<int>.generate(imgList.length).map(
-                  //       (int pageIndex) => Flexible(
-                  //     child: ElevatedButton(
-                  //       onPressed: () => _controller.animateToPage(pageIndex),
-                  //       child: Text("$pageIndex"),
-                  //     ),
-                  //   ),
-                  //),
+                  ...Iterable<int>.generate(_iconNames.length+_uriNames.length).map(
+                        (int pageIndex) => Flexible(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _controller.animateToPage(pageIndex);
+                        },
+                        child: Text("$pageIndex"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

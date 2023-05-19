@@ -18,6 +18,15 @@ dependencies:
       url: https://github.com/serenader2014/flutter_carousel_slider
       ref: null-safty
       path:
+  import_sorter: ^4.6.0
+
+#flutter pub run import_sorter:main -e
+#pub run import_sorter:main -e if normal dart application
+import_sorter:
+  emojis: false # Optional, defaults to false
+  comments: true # Optional, defaults to true
+  ignored_files: # Optional, defaults to []
+    - \/tests\/*
 
 dev_dependencies:
   flutter_test:
