@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final BoxFit fit = BoxFit.contain;
   bool autoPlay = true;
   int? autoPlayInterval = 1;
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               CarouselSlider(
                 options: CarouselOptions(
+                  initialPage: pageIndex,
+                  onPageChanged: ((index, reason) {
+                    setState(() {
+                      pageIndex = index;
+                    });
+                  }),
                   //height: height,
                   //viewportFraction: 1.0,
                   enableInfiniteScroll: true,
@@ -139,49 +146,75 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const CircularProgressIndicator(),
                     ),
                   ),
-                  // ...Iterable<int>.generate(_namesSvgFiles.length).map(
-                  //
-                  // ),
+                  ...Iterable<int>.generate(_namesSvgFiles.length).map(
+                          (int index) =>  _namesSvgFiles[index].contains('assets/img/',0)?
+                          SvgPicture.asset(
+                            fit: fit,
+                            _namesSvgFiles[index],
+                            placeholderBuilder: (BuildContext context) => Container(
+                              padding: const EdgeInsets.all(30.0),
+                              child: const CircularProgressIndicator(),
+                            ),
+                          ):
+                          SvgPicture.network(
+                            fit: fit,
+                            _namesSvgFiles[index],
+                            placeholderBuilder: (BuildContext context) => Container(
+                              padding: const EdgeInsets.all(30.0),
+                              child: const CircularProgressIndicator(),
+                            ),
+                          ),
+                  ),
                 ],
                 carouselController: _controller,
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: <Widget>[
-              //     Flexible(
-              //       child: ElevatedButton(
-              //         onPressed: (){
-              //           setState(() {
-              //             autoPlay = !autoPlay;
-              //           });
-              //         },
-              //         child: Text('AutoPlay', style: TextStyle(color: autoPlay?Colors.deepOrange:Colors.black)),
-              //       ),
-              //     ),
-              //     Flexible(
-              //       child: ElevatedButton(
-              //         onPressed: () => _controller.previousPage(),
-              //         child: const Text('←'),
-              //       ),
-              //     ),
-              //     Flexible(
-              //       child: ElevatedButton(
-              //         onPressed: () => _controller.nextPage(),
-              //         child: const Text('→'),
-              //       ),
-              //     ),
-              //     ...Iterable<int>.generate(_iconNames.length+_uriNames.length).map(
-              //           (int pageIndex) => Flexible(
-              //         child: ElevatedButton(
-              //           onPressed: () {
-              //             _controller.animateToPage(pageIndex);
-              //           },
-              //           child: Text("$pageIndex"),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor:
+                      !autoPlay?
+                      const MaterialStatePropertyAll(Colors.white):
+                      const MaterialStatePropertyAll(Colors.deepOrange)),
+                      onPressed: (){
+                        setState(() {
+                          autoPlay = !autoPlay;
+                        });
+                      },
+                      child: const Text('Play'),
+                    ),
+                  ),
+                  Flexible(
+                    child: ElevatedButton(
+                      onPressed: () => _controller.previousPage(),
+                      child: const Text('←'),
+                    ),
+                  ),
+                  Flexible(
+                    child: ElevatedButton(
+                      onPressed: () => _controller.nextPage(),
+                      child: const Text('→'),
+                    ),
+                  ),
+                  ...Iterable<int>.generate(_iconNames.length+_uriNames.length+_namesSvgFiles.length).map(
+                        (int index) => Flexible(
+                      child: ElevatedButton(
+                        style: ButtonStyle(backgroundColor:
+                        index!=pageIndex?
+                        const MaterialStatePropertyAll(Colors.white):
+                        const MaterialStatePropertyAll(Colors.deepOrange)),
+                        onPressed: () {
+                          setState(() {
+                            _controller.animateToPage(index);
+                          });
+                        },
+                        child: Text("${index+1}"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
