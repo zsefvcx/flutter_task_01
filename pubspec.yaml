@@ -12,11 +12,18 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.5
   cupertino_icons: ^1.0.2
+  #carousel_slider: ^4.2.1
+  carousel_slider:
+    git:
+      url: https://github.com/serenader2014/flutter_carousel_slider
+      ref: null-safty
+      path:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  dart_code_metrics: ^5.7.4
 
 flutter:
   uses-material-design: true
