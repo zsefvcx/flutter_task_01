@@ -17,6 +17,15 @@ const List<String> _uriNames = <String>[
   'https://upload.wikimedia.org/wikipedia/commons/b/b4/Chess_ndd45.svg',
 ];
 
+const List<String> _namesSvgFiles = <String>[
+  'assets/img/Gerald_G_Creation_Days_Numbers.svg',
+  'assets/img/Gerald_G_Creation_Days_Numbers_1.svg',
+  'assets/img/Gerald_G_Creation_Days_Numbers_2.svg',
+  'http://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg',
+  'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/410.svg',
+  'https://upload.wikimedia.org/wikipedia/commons/b/b4/Chess_ndd45.svg',
+];
+
 void main() => runApp(const FlutterTask01());
 
 class FlutterTask01 extends StatelessWidget {
@@ -32,7 +41,7 @@ class FlutterTask01 extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Task 01 Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -51,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //const double width = 200;
   //const double height = 300;
   final BoxFit fit = BoxFit.contain;
-  bool autoPlay = false;
+  bool autoPlay = true;
   int? autoPlayInterval = 1;
   @override
   Widget build(BuildContext context) {
@@ -130,46 +139,49 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const CircularProgressIndicator(),
                     ),
                   ),
+                  // ...Iterable<int>.generate(_namesSvgFiles.length).map(
+                  //
+                  // ),
                 ],
                 carouselController: _controller,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    child: ElevatedButton(
-                      onPressed: (){
-                        setState(() {
-                          autoPlay = !autoPlay;
-                        });
-                      },
-                      child: Text('AutoPlay', style: TextStyle(color: autoPlay?Colors.deepOrange:Colors.black)),
-                    ),
-                  ),
-                  Flexible(
-                    child: ElevatedButton(
-                      onPressed: () => _controller.previousPage(),
-                      child: const Text('←'),
-                    ),
-                  ),
-                  Flexible(
-                    child: ElevatedButton(
-                      onPressed: () => _controller.nextPage(),
-                      child: const Text('→'),
-                    ),
-                  ),
-                  ...Iterable<int>.generate(_iconNames.length+_uriNames.length).map(
-                        (int pageIndex) => Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _controller.animateToPage(pageIndex);
-                        },
-                        child: Text("$pageIndex"),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: <Widget>[
+              //     Flexible(
+              //       child: ElevatedButton(
+              //         onPressed: (){
+              //           setState(() {
+              //             autoPlay = !autoPlay;
+              //           });
+              //         },
+              //         child: Text('AutoPlay', style: TextStyle(color: autoPlay?Colors.deepOrange:Colors.black)),
+              //       ),
+              //     ),
+              //     Flexible(
+              //       child: ElevatedButton(
+              //         onPressed: () => _controller.previousPage(),
+              //         child: const Text('←'),
+              //       ),
+              //     ),
+              //     Flexible(
+              //       child: ElevatedButton(
+              //         onPressed: () => _controller.nextPage(),
+              //         child: const Text('→'),
+              //       ),
+              //     ),
+              //     ...Iterable<int>.generate(_iconNames.length+_uriNames.length).map(
+              //           (int pageIndex) => Flexible(
+              //         child: ElevatedButton(
+              //           onPressed: () {
+              //             _controller.animateToPage(pageIndex);
+              //           },
+              //           child: Text("$pageIndex"),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
